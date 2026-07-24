@@ -1,0 +1,48 @@
+#include <stdio.h>
+
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int partition(int arr[], int left, int right) {
+    int pivot = arr[right];
+    int i = left;
+
+    for (int j = left; j < right; j++) {
+        if (arr[j] <= pivot) {
+            swap(&arr[i], &arr[j]);
+            i++;
+        }
+    }
+    swap(&arr[i], &arr[right]);
+    return i;
+}
+
+int quickSelect(int arr[], int left, int right, int k) {
+    if (left == right) {
+        return arr[left];
+    }
+
+    int pivotIndex = partition(arr, left, right);
+
+    if (k == pivotIndex) {
+        return arr[k];
+    } else if (k < pivotIndex) {
+        return quickSelect(arr, left, pivotIndex - 1, k);
+    } else {
+        return quickSelect(arr, pivotIndex + 1, right, k);
+    }
+}
+
+int main() {
+    int arr[] = {7, 10, 4, 3, 20, 15};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int k = 3; // Find 3rd smallest element
+
+    int result = quickSelect(arr, 0, n - 1, k - 1);
+    printf("The %d-th smallest element is %d\n", k, result);
+
+    return 0;
+}
