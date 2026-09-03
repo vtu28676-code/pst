@@ -1,0 +1,32 @@
+T = int(input())
+
+for _ in range(T):
+    s = input().strip()
+    n = len(s)
+
+    left = s[:n // 2]
+    right = s[(n + 1) // 2:]
+
+    if sorted(left) == sorted(right):
+        print("YES")
+    else:
+        print("NO")   
+
+
+
+
+Sample Input
+6
+gaga
+abcde
+rotor
+xyzxy
+abbaab
+ababc
+Your Output
+YES
+NO
+YES
+YES
+NO
+NO
