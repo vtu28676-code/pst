@@ -1,0 +1,59 @@
+import java.io.*;
+
+public class Solution {
+
+    public static long stringSimilarity(String s) {
+        int n = s.length();
+        int[] z = new int[n];
+        
+        int l = 0, r = 0;
+        
+        // Z-algorithm: compute length of longest common prefix between s and s[i...]
+        for (int i = 1; i < n; i++) {
+            if (i <= r) {
+                z[i] = Math.min(r - i + 1, z[i - l]);
+            }
+            while (i + z[i] < n && s.charAt(z[i]) == s.charAt(i + z[i])) {
+                z[i]++;
+            }
+            if (i + z[i] - 1 > r) {
+                l = i;
+                r = i + z[i] - 1;
+            }
+        }
+
+        // Sum up similarity scores (including string with itself, which contributes length n)
+        long totalSimilarity = n;
+        for (int i = 1; i < n; i++) {
+            totalSimilarity += z[i];
+        }
+
+        return totalSimilarity;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        
+        String tLine = reader.readLine();
+        if (tLine == null) return;
+        
+        int t = Integer.parseInt(tLine.trim());
+
+        while (t-- > 0) {
+            String s = reader.readLine().trim();
+            System.out.println(stringSimilarity(s));
+        }
+    }
+}
+
+
+Input (stdin)
+2
+ababaa
+aa
+Your Output (stdout)
+11
+3
+Expected Output
+11
+3
