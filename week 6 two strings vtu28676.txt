@@ -1,0 +1,51 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static String twoStrings(String s1, String s2) {
+        // Store unique characters of s1
+        Set<Character> set1 = new HashSet<>();
+        for (char c : s1.toCharArray()) {
+            set1.add(c);
+        }
+
+        // Check if any character in s2 exists in s1
+        for (char c : s2.toCharArray()) {
+            if (set1.contains(c)) {
+                return "YES";
+            }
+        }
+
+        return "NO";
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        if (!scanner.hasNextInt()) return;
+
+        int q = scanner.nextInt();
+
+        while (q-- > 0) {
+            String s1 = scanner.next();
+            String s2 = scanner.next();
+            System.out.println(twoStrings(s1, s2));
+        }
+
+        scanner.close();
+    }
+}
+
+
+Input (stdin)
+2
+hello
+world
+hi
+world
+Your Output (stdout)
+YES
+NO
+Expected Output
+YES
+NO
