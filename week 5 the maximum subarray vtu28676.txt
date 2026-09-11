@@ -1,0 +1,78 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static int[] maxSubarray(int[] arr) {
+        // 1. Calculate Maximum Subarray Sum (Kadane's Algorithm)
+        int maxSubarraySum = arr[0];
+        int currentSubarraySum = arr[0];
+
+        // 2. Calculate Maximum Subsequence Sum
+        int maxSubsequenceSum = 0;
+        int maxElement = arr[0];
+        boolean hasPositive = false;
+
+        for (int i = 0; i < arr.length; i++) {
+            // Kadane's logic for contiguous subarray
+            if (i > 0) {
+                currentSubarraySum = Math.max(arr[i], currentSubarraySum + arr[i]);
+                maxSubarraySum = Math.max(maxSubarraySum, currentSubarraySum);
+            }
+
+            // Subsequence logic: add all positive numbers
+            if (arr[i] > 0) {
+                maxSubsequenceSum += arr[i];
+                hasPositive = true;
+            }
+
+            // Track maximum element in case all numbers are negative
+            if (arr[i] > maxElement) {
+                maxElement = arr[i];
+            }
+        }
+
+        // If no positive numbers exist, the max subsequence sum is the largest single element
+        if (!hasPositive) {
+            maxSubsequenceSum = maxElement;
+        }
+
+        return new int[]{maxSubarraySum, maxSubsequenceSum};
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        if (!scanner.hasNextInt()) return;
+
+        int t = scanner.nextInt();
+
+        while (t-- > 0) {
+            int n = scanner.nextInt();
+            int[] arr = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                arr[i] = scanner.nextInt();
+            }
+
+            int[] result = maxSubarray(arr);
+            System.out.println(result[0] + " " + result[1]);
+        }
+
+        scanner.close();
+    }
+}
+
+
+
+input (stdin)
+2
+4
+1 2 3 4
+6
+2 -1 2 3 4 -5
+Your Output (stdout)
+10 10
+10 11
+Expected Output
+10 10
+10 11
