@@ -1,0 +1,43 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public static List<Integer> search(String text, String pattern) {
+        List<Integer> result = new ArrayList<>();
+        int n = text.length();
+        int m = pattern.length();
+
+        // Slide pattern over text one by one
+        for (int i = 0; i <= n - m; i++) {
+            int j;
+
+            // Check for pattern match at current index i
+            for (j = 0; j < m; j++) {
+                if (text.charAt(i + j) != pattern.charAt(j)) {
+                    break;
+                }
+            }
+
+            // If j reached m, pattern was found at index i
+            if (j == m) {
+                result.add(i);
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        String text1 = "geeksforgeeks";
+        String pattern1 = "geeks";
+        System.out.println(search(text1, pattern1)); // Output: [0, 8]
+
+        String text2 = "aabaacaadaabaaba";
+        String pattern2 = "aaba";
+        System.out.println(search(text2, pattern2)); // Output: [0, 9, 12]
+    }
+}
+
+
+Output
+0 9 12 
