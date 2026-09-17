@@ -1,0 +1,84 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        
+        String nStr = reader.readLine();
+        if (nStr == null || nStr.trim().isEmpty()) return;
+        
+        int n = Integer.parseInt(nStr.trim());
+        String s = reader.readLine().trim();
+
+        // Concatenate string to easily handle rotations of length n
+        String doubled = s + s;
+        int doubleLen = doubled.length();
+
+        for (int k = 0; k < n; k++) {
+            // Rotation starting at index k with length n
+            int maxLen = getMaxPalindromeLength(doubled, k, k + n - 1);
+            System.out.println(maxLen);
+        }
+    }
+
+    private static int getMaxPalindromeLength(String str, int start, int end) {
+        int maxLen = 0;
+
+        for (int i = start; i <= end; i++) {
+            // Odd length palindromes (single character center)
+            maxLen = Math.max(maxLen, expand(str, i, i, start, end));
+            
+            // Even length palindromes (two character center)
+            maxLen = Math.max(maxLen, expand(str, i, i + 1, start, end));
+        }
+
+        return maxLen;
+    }
+
+    private static int expand(String str, int left, int right, int start, int end) {
+        while (left >= start && right <= end && str.charAt(left) == str.charAt(right)) {
+            left--;
+            right++;
+        }
+        return right - left - 1;
+    }
+}
+
+
+
+
+
+
+Input (stdin)
+13
+aaaaabbbbaaaa
+Your Output (stdout)
+12
+12
+10
+8
+8
+9
+11
+13
+11
+9
+8
+8
+10
+Expected Output
+12
+12
+10
+8
+8
+9
+11
+13
+11
+9
+8
+8
+10
